@@ -3,101 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>ToDo list JS</title>
+    <link rel="stylesheet" href="./css/main.css" />
   </head>
   <body>
-    <header style="display: flex; align-items: baseline">
-      <h1>To-Do List</h1>
-      <button
-        style="
-          height: 25px;
-          background-color: blue;
-          color: white;
-          border-radius: 5px;
-          margin: 5px;
-          cursor: pointer;
-        "
-        type="button"
-      >
-        Add task
-      </button>
-      <button
-        style="
-          height: 25px;
-          background-color: blue;
-          color: white;
-          border-radius: 5px;
-          margin: 5px;
-          cursor: pointer;
-        "
-        type="button"
-      >
-        Filter
-      </button>
+    <header class="header">
+      <h1 class="header-text">To-Do List</h1>
+      <button class="button" type="button" data-modal-open>Add task</button>
+      <button class="button" type="button">Filter</button>
     </header>
-    <div
-      style="
-        border: 1px solid red;
-        display: inline-block;
-        background-color: aqua;
-        padding: 10px;
-        border-radius: 5px;
-      "
-    >
-      <div style="display: flex">
-        <h2>Add Task</h2>
-        <button
-          style="
-            height: 25px;
-            background-color: blue;
-            color: white;
-            border-radius: 5px;
-            margin: 5px;
-            margin-left: auto;
-            cursor: pointer;
-          "
-          type="button"
-        >
-          X
-        </button>
-      </div>
+    <div class="backdrop is-hidden" data-modal>
+      <div class="backdrop__modal">
+        <div style="display: flex">
+          <h2>Add Task</h2>
+          <button class="button" type="button" data-modal-close>X</button>
+        </div>
 
-      <form>
-        <select title="Category" required>
-          <option value="" disabled selected>Category:</option>
-          <option value="value1">Home</option>
-          <option value="value2">Work</option>
-          <option value="value3">School</option>
-          <option value="value4">Social</option>
-          <option value="value5">Family</option>
-        </select>
-        <select title="Time" required>
-          <option value="" disabled selected>Time:</option>
-          <option value="value1">Morning</option>
-          <option value="value2">Afternoon</option>
-          <option value="value3">Evening</option>
-          <option value="value3">Weekend</option>
-        </select>
-        <input
-          type="text"
-          title="Type task"
-          placeholder="Add task..."
-          required
-        />
-        <button
-          style="
-            height: 25px;
-            background-color: blue;
-            color: white;
-            border-radius: 5px;
-            margin: 5px;
-            cursor: pointer;
-          "
-          type="submit"
-        >
-          Submit
-        </button>
-      </form>
+        <form>
+          <select title="Category" required>
+            <option value="" disabled selected>Category:</option>
+            <option value="value1">Home</option>
+            <option value="value2">Work</option>
+            <option value="value3">School</option>
+            <option value="value4">Social</option>
+            <option value="value5">Family</option>
+          </select>
+          <select title="Time" required>
+            <option value="" disabled selected>Time:</option>
+            <option value="value1">Morning</option>
+            <option value="value2">Afternoon</option>
+            <option value="value3">Evening</option>
+            <option value="value3">Weekend</option>
+          </select>
+          <input
+            type="text"
+            title="Type task"
+            placeholder="Add task..."
+            required
+          />
+          <button class="button" type="submit">Submit</button>
+        </form>
+      </div>
     </div>
+    <script src="./js/modal.js"></script>
   </body>
 </html>
