@@ -41,6 +41,15 @@
   cursor: pointer;
 }
 
+.list-item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid red;
+  border-radius: 5px;
+  width: 200px;
+  margin-bottom: 5px;
+}
+
 /* -- ‡ MODAL -- */
 .backdrop {
   position: fixed;

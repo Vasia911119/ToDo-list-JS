@@ -12,6 +12,9 @@
       <button class="button" type="button" data-modal-open>Add task</button>
       <button class="button" type="button">Filter</button>
     </header>
+    <section>
+      <ul data-list></ul>
+    </section>
     <div class="backdrop is-hidden" data-modal>
       <div class="backdrop__modal">
         <div class="backdrop__modal-wrapper">
@@ -19,8 +22,8 @@
           <button class="button" type="button" data-modal-close>X</button>
         </div>
 
-        <form>
-          <select title="Category" required>
+        <form data-form>
+          <select title="Category" name="category" required>
             <option value="" disabled selected>Category:</option>
             <option value="value1">Home</option>
             <option value="value2">Work</option>
@@ -28,7 +31,7 @@
             <option value="value4">Social</option>
             <option value="value5">Family</option>
           </select>
-          <select title="Time" required>
+          <select title="Time" name="time" required>
             <option value="" disabled selected>Time:</option>
             <option value="value1">Morning</option>
             <option value="value2">Afternoon</option>
@@ -38,6 +41,7 @@
           <input
             type="text"
             title="Type task"
+            name="task"
             placeholder="Add task..."
             required
           />
@@ -46,5 +50,6 @@
       </div>
     </div>
     <script src="./js/modal.js"></script>
+    <script src="./js/index.js"></script>
   </body>
 </html>
