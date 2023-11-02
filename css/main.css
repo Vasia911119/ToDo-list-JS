@@ -1,23 +1,7 @@
-/* -- VARIABLES -- */
+/* -- ‡ VARIABLES -- */
 :root {
   --timing-func: cubic-bezier(0.4, 0, 0.2, 1);
-  /* -- VARIABLES  BORDER -- */
-
-  /* -- ‡ VARIABLES  BORDER -- */
-  /* -- VARIABLES  SHADOW -- */
-
-  /* -- ‡ VARIABLES  SHADOW -- */
-  /* -- VARIABLES BACKGROUND COLOR -- */
-
-  /* -- ‡ VARIABLES BACKGROUND COLOR -- */
-  /* -- VARIABLES TEXT COLOR -- */
-
-  /* -- ‡ VARIABLES TEXT COLOR -- */
 }
-
-/* -- VARIABLES DISPLAY SIZE -- */
-/* -- ‡ VARIABLES DISPLAY SIZE -- */
-/* -- ‡ VARIABLES -- */
 
 .visually-hidden {
   position: absolute;
@@ -92,4 +76,8 @@
 
 .backdrop.is-hidden .backdrop__modal {
   transform: translate3d(-50%, -50%, 0) scale(0.8) rotate3d(0, -10, 0, 0deg);
+}
+
+.backdrop__modal-wrapper {
+  display: flex;
 }
