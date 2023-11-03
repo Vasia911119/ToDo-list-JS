@@ -1,0 +1,50 @@
+{
+  "categories": [
+    {
+      "value": "initial",
+      "name": "Category:"
+    },
+    {
+      "value": "value1",
+      "name": "Home"
+    },
+    {
+      "value": "value2",
+      "name": "Work"
+    },
+    {
+      "value": "value3",
+      "name": "School"
+    },
+    {
+      "value": "value4",
+      "name": "Social"
+    },
+    {
+      "value": "value5",
+      "name": "Family"
+    }
+  ],
+  "times": [
+    {
+      "value": "initial",
+      "name": "Time:"
+    },
+    {
+      "value": "value1",
+      "name": "Morning"
+    },
+    {
+      "value": "value2",
+      "name": "Afternoon"
+    },
+    {
+      "value": "value3",
+      "name": "Evening"
+    },
+    {
+      "value": "value4",
+      "name": "Weekend"
+    }
+  ]
+}

@@ -15,6 +15,9 @@
     <section>
       <ul data-list></ul>
     </section>
+    <section>
+      <ul data-complete-list></ul>
+    </section>
     <div class="backdrop is-hidden" data-modal>
       <div class="backdrop__modal">
         <div class="backdrop__modal-wrapper">
@@ -23,21 +26,8 @@
         </div>
 
         <form data-form>
-          <select title="Category" name="category" required>
-            <option value="" disabled selected>Category:</option>
-            <option value="value1">Home</option>
-            <option value="value2">Work</option>
-            <option value="value3">School</option>
-            <option value="value4">Social</option>
-            <option value="value5">Family</option>
-          </select>
-          <select title="Time" name="time" required>
-            <option value="" disabled selected>Time:</option>
-            <option value="value1">Morning</option>
-            <option value="value2">Afternoon</option>
-            <option value="value3">Evening</option>
-            <option value="value3">Weekend</option>
-          </select>
+          <select title="Category" name="category" required></select>
+          <select title="Time" name="time" required></select>
           <input
             type="text"
             title="Type task"
@@ -49,6 +39,7 @@
         </form>
       </div>
     </div>
+    <script type="module" src="./js/loadData.js"></script>
     <script type="module" src="./js/modal.js"></script>
     <script type="module" src="./js/index.js"></script>
   </body>
