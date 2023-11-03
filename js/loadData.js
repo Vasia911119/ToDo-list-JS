@@ -1,4 +1,4 @@
-fetch("../data/data.json")
+fetch("../data/data.geojson")
   .then((response) => response.json())
   .then((data) => {
     const categorySelect = document.querySelector('select[name="category"]');
