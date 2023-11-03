@@ -30,7 +30,7 @@ function openModal() {
   document.addEventListener("click", handleClickOutside);
 }
 
-function closeModal() {
+export function closeModal() {
   classList.add("is-hidden");
   modalRefs.openModalBtn.addEventListener("click", openModal);
   modalRefs.closeModalBtn.removeEventListener("click", closeModal);
