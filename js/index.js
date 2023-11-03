@@ -60,7 +60,6 @@ completeList.addEventListener("click", (event) => {
   }
 });
 
-// Функції для обробки подій
 function edit(item) {
   console.log("Edit", item);
 }
