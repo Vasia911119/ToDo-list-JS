@@ -1,4 +1,16 @@
-fetch("../data/data.geojson")
+let dataUrl;
+
+if (
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1"
+) {
+  dataUrl = "../data/data.json";
+} else {
+  dataUrl =
+    "https://github.com/Vasia911119/ToDo-list-JS/blob/main/data/data.json";
+}
+
+fetch(dataUrl)
   .then((response) => response.json())
   .then((data) => {
     const categorySelect = document.querySelector('select[name="category"]');
