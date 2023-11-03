@@ -6,8 +6,7 @@ if (
 ) {
   dataUrl = "../data/data.json";
 } else {
-  dataUrl =
-    "https://github.com/Vasia911119/ToDo-list-JS/blob/main/data/data.json";
+  dataUrl = "../ToDo-list-JS/blob/main/data/data.json";
 }
 
 fetch(dataUrl)
