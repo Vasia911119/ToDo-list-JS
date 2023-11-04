@@ -1,7 +1,7 @@
 {
   "categories": [
     {
-      "value": "initial",
+      "value": "",
       "name": "Category:"
     },
     {
@@ -27,7 +27,7 @@
   ],
   "times": [
     {
-      "value": "initial",
+      "value": "",
       "name": "Time:"
     },
     {

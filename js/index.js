@@ -1,23 +1,33 @@
+import { openModal, closeModal } from "./modal.js";
+
 const refs = {
   form: document.querySelector("[data-form]"),
   list: document.querySelector("[data-list]"),
   completeList: document.querySelector("[data-complete-list]"),
 };
-import { closeModal } from "./modal.js";
 
+let index;
 const toDo = [];
 const complete = [];
 const { form, list, completeList } = refs;
 
-form.addEventListener("submit", function (event) {
-  event.preventDefault();
+const mainSubmitHandler = (event) => handleSubmit(event, "main");
+const editSubmitHandler = (event) => handleSubmit(event, "edit");
 
-  function getSelectedValue(name) {
-    const select = form.querySelector(`select[name="${name}"]`);
-    const selectedOption = select.options[select.selectedIndex];
-    const value = selectedOption.text;
-    return value;
+toggleEventListeners(false);
+
+function toggleEventListeners(addEditListener) {
+  if (addEditListener) {
+    form.removeEventListener("submit", mainSubmitHandler);
+    form.addEventListener("submit", editSubmitHandler);
+  } else {
+    form.removeEventListener("submit", editSubmitHandler);
+    form.addEventListener("submit", mainSubmitHandler);
   }
+}
+
+function handleSubmit(event, value) {
+  event.preventDefault();
 
   const categoryValue = getSelectedValue("category");
   const timeValue = getSelectedValue("time");
@@ -27,12 +37,25 @@ form.addEventListener("submit", function (event) {
 
   inputText.value = "";
 
-  categoryValue && timeValue && taskValue && closeModal();
+  if (categoryValue && timeValue && taskValue) {
+    closeModal();
+    if (value === "main") {
+      toDo.push({ categoryValue, timeValue, taskValue });
+    }
+    if (value === "edit") {
+      toDo[index] = { categoryValue, timeValue, taskValue };
+    }
+    getMarkup();
+  }
+  toggleEventListeners(false);
+}
 
-  toDo.push({ categoryValue, timeValue, taskValue });
-
-  getMarkup();
-});
+function getSelectedValue(name) {
+  const select = form.querySelector(`select[name="${name}"]`);
+  const selectedOption = select.options[select.selectedIndex];
+  const value = selectedOption.text;
+  return value;
+}
 
 list.addEventListener("click", (event) => {
   const listItem = event.target.closest("li");
@@ -61,7 +84,32 @@ completeList.addEventListener("click", (event) => {
 });
 
 function edit(item) {
-  console.log("Edit", item);
+  openModal();
+  toggleEventListeners(true);
+  index = item.getAttribute("data-key");
+  const spans = item.querySelectorAll("span");
+  const categoryValue = spans[0].textContent;
+  const timeValue = spans[1].textContent;
+  const taskValue = spans[2].textContent;
+  const categorySelect = form.querySelector('select[name="category"]');
+  const timeSelect = form.querySelector('select[name="time"]');
+  const inputText = form.querySelector('input[name="task"]');
+  inputText.value = taskValue;
+
+  // Знаходження відповідних опцій в селекті та встановлення значень
+  for (const option of categorySelect.options) {
+    if (option.textContent === categoryValue) {
+      categorySelect.value = option.value;
+      break;
+    }
+  }
+
+  for (const option of timeSelect.options) {
+    if (option.textContent === timeValue) {
+      timeSelect.value = option.value;
+      break;
+    }
+  }
 }
 
 function done(item) {

@@ -20,7 +20,7 @@ fetch(dataUrl)
       option.value = category.value;
       option.textContent = category.name;
 
-      if (category.value === "initial") {
+      if (category.value === "") {
         option.setAttribute("disabled", true);
         option.setAttribute("selected", true);
       }
@@ -33,7 +33,7 @@ fetch(dataUrl)
       option.value = time.value;
       option.textContent = time.name;
 
-      if (time.value === "initial") {
+      if (time.value === "") {
         option.setAttribute("disabled", true);
         option.setAttribute("selected", true);
       }
