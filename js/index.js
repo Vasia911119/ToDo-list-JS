@@ -4,12 +4,14 @@ const refs = {
   form: document.querySelector("[data-form]"),
   list: document.querySelector("[data-list]"),
   completeList: document.querySelector("[data-complete-list]"),
+  filterButton: document.querySelector("[data-filter]"),
 };
 
 let index;
 const toDo = [];
 const complete = [];
-const { form, list, completeList } = refs;
+const { form, list, completeList, filterButton } = refs;
+const inputText = form.querySelector('input[name="task"]');
 
 const mainSubmitHandler = (event) => handleSubmit(event, "main");
 const editSubmitHandler = (event) => handleSubmit(event, "edit");
@@ -32,7 +34,7 @@ function handleSubmit(event, value) {
   const categoryValue = getSelectedValue("category");
   const timeValue = getSelectedValue("time");
 
-  const inputText = form.querySelector('input[name="task"]');
+  // const inputText = form.querySelector('input[name="task"]');
   const taskValue = inputText.value;
 
   inputText.value = "";
@@ -93,7 +95,7 @@ function edit(item) {
   const taskValue = spans[2].textContent;
   const categorySelect = form.querySelector('select[name="category"]');
   const timeSelect = form.querySelector('select[name="time"]');
-  const inputText = form.querySelector('input[name="task"]');
+  // const inputText = form.querySelector('input[name="task"]');
   inputText.value = taskValue;
 
   // Знаходження відповідних опцій в селекті та встановлення значень
@@ -157,4 +159,11 @@ function getMarkup() {
 
   list.innerHTML = listItems.join("");
   completeList.innerHTML = completeListItems.join("");
+}
+
+filterButton.addEventListener("click", filterTasks);
+function filterTasks() {
+  inputText.classList.add("visually-hidden");
+  openModal();
+  inputText.classList.remove("visually-hidden");
 }
