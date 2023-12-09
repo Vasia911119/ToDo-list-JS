@@ -33,19 +33,19 @@ function handleSubmit(event, value) {
 
   const categoryValue = getSelectedValue("category");
   const timeValue = getSelectedValue("time");
-
-  // const inputText = form.querySelector('input[name="task"]');
   const taskValue = inputText.value;
 
   inputText.value = "";
 
   if (categoryValue && timeValue && taskValue) {
     closeModal();
-    if (value === "main") {
-      toDo.push({ categoryValue, timeValue, taskValue });
-    }
-    if (value === "edit") {
-      toDo[index] = { categoryValue, timeValue, taskValue };
+    switch (value) {
+      case "main":
+        toDo.push({ categoryValue, timeValue, taskValue });
+        break;
+      case "edit":
+        toDo[index] = { categoryValue, timeValue, taskValue };
+        break;
     }
     getMarkup();
   }
@@ -59,31 +59,25 @@ function getSelectedValue(name) {
   return value;
 }
 
-list.addEventListener("click", (event) => {
+list.addEventListener("click", clickHandle);
+completeList.addEventListener("click", clickHandle);
+
+function clickHandle(event) {
   const listItem = event.target.closest("li");
   if (!listItem) return;
 
-  if (event.target.dataset.action === "edit") {
-    edit(listItem);
-  } else if (event.target.dataset.action === "done") {
-    done(listItem);
-  } else if (event.target.dataset.action === "del") {
-    del(listItem);
+  switch (event.target.dataset.action) {
+    case "edit":
+      edit(listItem);
+      break;
+    case "done":
+      done(listItem);
+      break;
+    case "del":
+      del(listItem);
+      break;
   }
-});
-
-completeList.addEventListener("click", (event) => {
-  const complelistItem = event.target.closest("li");
-  if (!complelistItem) return;
-
-  if (event.target.dataset.action === "edit") {
-    edit(complelistItem);
-  } else if (event.target.dataset.action === "done") {
-    done(complelistItem);
-  } else if (event.target.dataset.action === "del") {
-    del(complelistItem);
-  }
-});
+}
 
 function edit(item) {
   openModal();
@@ -95,7 +89,6 @@ function edit(item) {
   const taskValue = spans[2].textContent;
   const categorySelect = form.querySelector('select[name="category"]');
   const timeSelect = form.querySelector('select[name="time"]');
-  // const inputText = form.querySelector('input[name="task"]');
   inputText.value = taskValue;
 
   // Знаходження відповідних опцій в селекті та встановлення значень
@@ -161,9 +154,9 @@ function getMarkup() {
   completeList.innerHTML = completeListItems.join("");
 }
 
-filterButton.addEventListener("click", filterTasks);
-function filterTasks() {
-  inputText.classList.add("visually-hidden");
-  openModal();
-  inputText.classList.remove("visually-hidden");
-}
+// filterButton.addEventListener("click", filterTasks);
+// function filterTasks() {
+//   inputText.classList.add("visually-hidden");
+//   openModal();
+//   inputText.classList.remove("visually-hidden");
+// }
