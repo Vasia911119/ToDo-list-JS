@@ -41,4 +41,4 @@ fetch(dataUrl)
       timeSelect.appendChild(option);
     });
   })
-  .catch((error) => console.error("Помилка завантаження файлу JSON:", error));
+  .catch((error) => console.error("Error loading file JSON:", error));
