@@ -41,6 +41,10 @@
   cursor: pointer;
 }
 
+.close {
+  margin-left: auto;
+}
+
 .list-item {
   display: flex;
   flex-direction: column;
