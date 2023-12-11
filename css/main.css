@@ -68,6 +68,7 @@
 }
 
 .backdrop__modal {
+  padding: 5px;
   position: relative;
   max-width: 450px;
   left: 50%;
