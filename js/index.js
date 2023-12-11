@@ -13,121 +13,7 @@ const complete = [];
 const { form, list, completeList, filterButton } = refs;
 const inputText = form.querySelector('input[name="task"]');
 
-const mainSubmitHandler = (event) => handleSubmit(event, "main");
-const editSubmitHandler = (event) => handleSubmit(event, "edit");
-
-toggleEventListeners(false);
-
-function toggleEventListeners(addEditListener) {
-  if (addEditListener) {
-    form.removeEventListener("submit", mainSubmitHandler);
-    form.addEventListener("submit", editSubmitHandler);
-  } else {
-    form.removeEventListener("submit", editSubmitHandler);
-    form.addEventListener("submit", mainSubmitHandler);
-  }
-}
-
-function handleSubmit(event, value) {
-  event.preventDefault();
-
-  const categoryValue = getSelectedValue("category");
-  const timeValue = getSelectedValue("time");
-  const taskValue = inputText.value;
-
-  inputText.value = "";
-
-  if (categoryValue && timeValue && taskValue) {
-    closeModal();
-    switch (value) {
-      case "main":
-        toDo.push({ categoryValue, timeValue, taskValue });
-        break;
-      case "edit":
-        toDo[index] = { categoryValue, timeValue, taskValue };
-        break;
-    }
-    getMarkup();
-  }
-  toggleEventListeners(false);
-}
-
-function getSelectedValue(name) {
-  const select = form.querySelector(`select[name="${name}"]`);
-  const selectedOption = select.options[select.selectedIndex];
-  const value = selectedOption.text;
-  return value;
-}
-
-list.addEventListener("click", clickHandle);
-completeList.addEventListener("click", clickHandle);
-
-function clickHandle(event) {
-  const listItem = event.target.closest("li");
-  if (!listItem) return;
-
-  switch (event.target.dataset.action) {
-    case "edit":
-      edit(listItem);
-      break;
-    case "done":
-      done(listItem);
-      break;
-    case "del":
-      del(listItem);
-      break;
-  }
-}
-
-function edit(item) {
-  openModal();
-  toggleEventListeners(true);
-  index = item.getAttribute("data-key");
-  const spans = item.querySelectorAll("span");
-  const categoryValue = spans[0].textContent;
-  const timeValue = spans[1].textContent;
-  const taskValue = spans[2].textContent;
-  const categorySelect = form.querySelector('select[name="category"]');
-  const timeSelect = form.querySelector('select[name="time"]');
-  inputText.value = taskValue;
-
-  // Знаходження відповідних опцій в селекті та встановлення значень
-  for (const option of categorySelect.options) {
-    if (option.textContent === categoryValue) {
-      categorySelect.value = option.value;
-      break;
-    }
-  }
-
-  for (const option of timeSelect.options) {
-    if (option.textContent === timeValue) {
-      timeSelect.value = option.value;
-      break;
-    }
-  }
-}
-
-function done(item) {
-  const spans = item.querySelectorAll("span");
-  const categoryValue = spans[0].textContent;
-  const timeValue = spans[1].textContent;
-  const taskValue = spans[2].textContent;
-  complete.push({ categoryValue, timeValue, taskValue });
-  del(item);
-}
-
-function del(item) {
-  const index = item.getAttribute("data-key");
-  const parentDataset = item.parentNode.dataset;
-  const attributeNames = Object.keys(parentDataset);
-
-  attributeNames.includes("list") && toDo.splice(index, 1);
-  attributeNames.includes("completeList") && complete.splice(index, 1);
-
-  getMarkup();
-}
-
-function getMarkup() {
+const getMarkup = function (firstRef, secondRef) {
   const listItems = toDo.map((el, index) => {
     return `<li data-key=${index}>
       <span>${el.categoryValue}</span>
@@ -150,9 +36,123 @@ function getMarkup() {
   </li>`;
   });
 
-  list.innerHTML = listItems.join("");
-  completeList.innerHTML = completeListItems.join("");
-}
+  firstRef.innerHTML = listItems.join("");
+  secondRef.innerHTML = completeListItems.join("");
+};
+
+const handleSubmit = function (event, value) {
+  event.preventDefault();
+
+  const categoryValue = getSelectedValue("category");
+  const timeValue = getSelectedValue("time");
+  const taskValue = inputText.value;
+
+  inputText.value = "";
+
+  if (categoryValue && timeValue && taskValue) {
+    closeModal();
+    switch (value) {
+      case "main":
+        toDo.push({ categoryValue, timeValue, taskValue });
+        break;
+      case "edit":
+        toDo[index] = { categoryValue, timeValue, taskValue };
+        break;
+    }
+    getMarkup(list, completeList);
+  }
+  toggleEventListeners(false, form);
+};
+
+const getSelectedValue = function (name) {
+  const select = form.querySelector(`select[name="${name}"]`);
+  const selectedOption = select.options[select.selectedIndex];
+  const value = selectedOption.text;
+  return value;
+};
+
+const mainSubmitHandler = (event) => handleSubmit(event, "main");
+const editSubmitHandler = (event) => handleSubmit(event, "edit");
+
+const toggleEventListeners = function (addEditListener, ref) {
+  if (addEditListener) {
+    ref.removeEventListener("submit", mainSubmitHandler);
+    ref.addEventListener("submit", editSubmitHandler);
+  } else {
+    ref.removeEventListener("submit", editSubmitHandler);
+    ref.addEventListener("submit", mainSubmitHandler);
+  }
+};
+
+toggleEventListeners(false, form);
+
+const clickHandle = function (event) {
+  const listItem = event.target.closest("li");
+  if (!listItem) return;
+
+  const edit = function (item) {
+    openModal();
+    toggleEventListeners(true, form);
+    index = item.getAttribute("data-key");
+    const spans = item.querySelectorAll("span");
+    const categoryValue = spans[0].textContent;
+    const timeValue = spans[1].textContent;
+    const taskValue = spans[2].textContent;
+    const categorySelect = form.querySelector('select[name="category"]');
+    const timeSelect = form.querySelector('select[name="time"]');
+    inputText.value = taskValue;
+
+    // Finding the appropriate options in the select and setting the values
+    for (const option of categorySelect.options) {
+      if (option.textContent === categoryValue) {
+        categorySelect.value = option.value;
+        break;
+      }
+    }
+
+    for (const option of timeSelect.options) {
+      if (option.textContent === timeValue) {
+        timeSelect.value = option.value;
+        break;
+      }
+    }
+  };
+
+  const done = function (item) {
+    const spans = item.querySelectorAll("span");
+    const categoryValue = spans[0].textContent;
+    const timeValue = spans[1].textContent;
+    const taskValue = spans[2].textContent;
+    complete.push({ categoryValue, timeValue, taskValue });
+    del(item);
+  };
+
+  const del = function (item) {
+    const index = item.getAttribute("data-key");
+    const parentDataset = item.parentNode.dataset;
+    const attributeNames = Object.keys(parentDataset);
+
+    attributeNames.includes("list") && toDo.splice(index, 1);
+    attributeNames.includes("completeList") && complete.splice(index, 1);
+
+    getMarkup(list, completeList);
+  };
+
+  switch (event.target.dataset.action) {
+    case "edit":
+      edit(listItem);
+      break;
+    case "done":
+      done(listItem);
+      break;
+    case "del":
+      del(listItem);
+      break;
+  }
+};
+
+list.addEventListener("click", clickHandle);
+completeList.addEventListener("click", clickHandle);
 
 // filterButton.addEventListener("click", filterTasks);
 // function filterTasks() {
