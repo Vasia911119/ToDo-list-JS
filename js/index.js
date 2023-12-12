@@ -12,32 +12,36 @@ const toDo = [];
 const complete = [];
 const { form, list, completeList, filterButton } = refs;
 const inputText = form.querySelector('input[name="task"]');
+const markupObj = {
+  firstRef: list,
+  secondRef: completeList,
+  toDoArray: toDo,
+  completeArray: complete,
+};
 
-const getMarkup = function (firstRef, secondRef) {
-  const listItems = toDo.map((el, index) => {
-    return `<li data-key=${index}>
-      <span>${el.categoryValue}</span>
-      <span>${el.timeValue}</span>
-      <span>${el.taskValue}</span>
-      <button data-action="edit">Edit</button>
-      <button data-action="done">Done</button>
+const getMarkup = function ({ firstRef, secondRef, toDoArray, completeArray }) {
+  const getList = function (array, ref) {
+    const listItems = array.map(
+      ({ categoryValue, timeValue, taskValue }, index) => {
+        return `<li data-key=${index}>
+      <span>${categoryValue}</span>
+      <span>${timeValue}</span>
+      <span>${taskValue}</span>
+      <button data-action="edit" ${
+        ref === secondRef && "disabled"
+      }>Edit</button>
+      <button data-action="done" ${
+        ref === secondRef && "disabled"
+      }>Done</button>
       <button data-action="del">X</button>
     </li>`;
-  });
+      }
+    );
+    ref.innerHTML = listItems.join("");
+  };
 
-  const completeListItems = complete.map((el, index) => {
-    return `<li data-key=${index}>
-    <span>${el.categoryValue}</span>
-    <span>${el.timeValue}</span>
-    <span>${el.taskValue}</span>
-    <button data-action="edit" disabled>Edit</button>
-    <button data-action="done" disabled>Done</button>
-    <button data-action="del">X</button>
-  </li>`;
-  });
-
-  firstRef.innerHTML = listItems.join("");
-  secondRef.innerHTML = completeListItems.join("");
+  getList(toDoArray, firstRef);
+  getList(completeArray, secondRef);
 };
 
 const handleSubmit = function (event, value) {
@@ -59,7 +63,7 @@ const handleSubmit = function (event, value) {
         toDo[index] = { categoryValue, timeValue, taskValue };
         break;
     }
-    getMarkup(list, completeList);
+    getMarkup(markupObj);
   }
   toggleEventListeners(false, form);
 };
@@ -95,9 +99,9 @@ const clickHandle = function (event) {
     toggleEventListeners(true, form);
     index = item.getAttribute("data-key");
     const spans = item.querySelectorAll("span");
-    const categoryValue = spans[0].textContent;
-    const timeValue = spans[1].textContent;
-    const taskValue = spans[2].textContent;
+    const [categoryValue, timeValue, taskValue] = [...spans].map(
+      (value) => value.textContent
+    );
     const categorySelect = form.querySelector('select[name="category"]');
     const timeSelect = form.querySelector('select[name="time"]');
     inputText.value = taskValue;
@@ -120,9 +124,10 @@ const clickHandle = function (event) {
 
   const done = function (item) {
     const spans = item.querySelectorAll("span");
-    const categoryValue = spans[0].textContent;
-    const timeValue = spans[1].textContent;
-    const taskValue = spans[2].textContent;
+    const [categoryValue, timeValue, taskValue] = [...spans].map(
+      (value) => value.textContent
+    );
+
     complete.push({ categoryValue, timeValue, taskValue });
     del(item);
   };
@@ -135,7 +140,7 @@ const clickHandle = function (event) {
     attributeNames.includes("list") && toDo.splice(index, 1);
     attributeNames.includes("completeList") && complete.splice(index, 1);
 
-    getMarkup(list, completeList);
+    getMarkup(markupObj);
   };
 
   switch (event.target.dataset.action) {
